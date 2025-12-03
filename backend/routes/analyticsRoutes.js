@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ message: "Analytics route working" });
-});
+const { protect } = require("../middlewares/authMiddleware");
+const { getEmployerAnalytics } = require("../controllers/analyticsController");
+
+// FINAL route = /api/analytics/overview
+router.get("/overview", protect, getEmployerAnalytics);
 
 module.exports = router;
