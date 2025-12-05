@@ -5,8 +5,11 @@ import JobDashboard from "../../components/Cards/JobDashboard";
 import { Briefcase, Users, CheckCircle } from "lucide-react";
 import axiosInstance from "../../utils/axiosInstance";
 import API_PATHS from "../../utils/apiPaths";
+import { useNavigate } from "react-router-dom";
+import ApplicationDashboardCard from "../../components/Cards/ApplicationDashboardCard";
 
 const EmployerDashboard = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   const [stats, setStats] = useState({
@@ -18,29 +21,22 @@ const EmployerDashboard = () => {
   const [recentJobs, setRecentJobs] = useState([]);
   const [recentApplications, setRecentApplications] = useState([]);
 
-  // ---------------------------------------
+  // ------------------------------------------------------
   // FETCH DASHBOARD OVERVIEW
-  // ---------------------------------------
+  // ------------------------------------------------------
   const getDashboardOverView = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.ANALYTICS.OVERVIEW);
-
-
       const data = response.data;
 
-      // Stats
       setStats({
         activeJobs: data.activeJobs,
         totalApplicants: data.totalApplicants,
         hired: data.hired,
       });
 
-      // Recent jobs
       setRecentJobs(data.recentJobs || []);
-
-      // Recent applications
       setRecentApplications(data.recentApplications || []);
-
     } catch (error) {
       console.log("Dashboard error:", error);
     } finally {
@@ -52,9 +48,9 @@ const EmployerDashboard = () => {
     getDashboardOverView();
   }, []);
 
-  // ---------------------------------------
+  // ------------------------------------------------------
   // STAT CARD
-  // ---------------------------------------
+  // ------------------------------------------------------
   const StatCard = ({ title, count, trend, icon: Icon, color }) => (
     <div className={`flex-1 p-6 rounded-xl text-white ${color}`}>
       <div className="flex justify-between items-start">
@@ -78,11 +74,10 @@ const EmployerDashboard = () => {
       ) : (
         <div className="max-w-7xl mx-auto space-y-6">
 
-          {/* --------------------------------------- */}
+          {/* ------------------------------------------------------ */}
           {/* STATS CARDS */}
-          {/* --------------------------------------- */}
+          {/* ------------------------------------------------------ */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
             <StatCard
               title="Active Jobs"
               count={stats.activeJobs.count}
@@ -106,12 +101,11 @@ const EmployerDashboard = () => {
               icon={CheckCircle}
               color="bg-gradient-to-r from-purple-500 to-purple-600"
             />
-
           </div>
 
-          {/* --------------------------------------- */}
+          {/* ------------------------------------------------------ */}
           {/* RECENT JOB POSTS */}
-          {/* --------------------------------------- */}
+          {/* ------------------------------------------------------ */}
           <div className="bg-white border rounded-xl p-6">
             <div className="flex justify-between items-center mb-4">
               <div>
@@ -130,7 +124,9 @@ const EmployerDashboard = () => {
             </div>
 
             {recentJobs.length === 0 ? (
-              <p className="text-gray-500 text-sm italic">No recent job posts.</p>
+              <p className="text-gray-500 text-sm italic">
+                No recent job posts.
+              </p>
             ) : (
               recentJobs.slice(0, 3).map((job) => (
                 <JobDashboard key={job._id} job={job} />
@@ -138,9 +134,9 @@ const EmployerDashboard = () => {
             )}
           </div>
 
-          {/* --------------------------------------- */}
+          {/* ------------------------------------------------------ */}
           {/* RECENT APPLICATIONS */}
-          {/* --------------------------------------- */}
+          {/* ------------------------------------------------------ */}
           <div className="bg-white border rounded-xl p-6">
             <div className="flex justify-between items-center mb-4">
               <div>
@@ -159,7 +155,9 @@ const EmployerDashboard = () => {
             </div>
 
             {recentApplications.length === 0 ? (
-              <p className="text-gray-500 text-sm italic">No recent applications.</p>
+              <p className="text-gray-500 text-sm italic">
+                No recent applications.
+              </p>
             ) : (
               recentApplications.slice(0, 3).map((app, index) => (
                 <ApplicationDashboardCard
@@ -170,6 +168,44 @@ const EmployerDashboard = () => {
                 />
               ))
             )}
+          </div>
+
+          {/* ------------------------------------------------------ */}
+          {/* QUICK ACTIONS (NEW SECTION YOU WANTED) */}
+          {/* ------------------------------------------------------ */}
+          <div className="bg-white border rounded-xl p-6">
+            <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+              {/* Post New Job */}
+              <button
+                onClick={() => navigate("/post-job")}
+                className="flex items-center justify-center py-3 border rounded-lg hover:bg-gray-50 transition"
+              >
+                <span className="mr-2 text-lg">📤</span>
+                <span className="font-medium">Post New Job</span>
+              </button>
+
+              {/* Review Applications */}
+              <button
+                onClick={() => navigate("/manage-applications")}
+                className="flex items-center justify-center py-3 border rounded-lg hover:bg-gray-50 transition"
+              >
+                <span className="mr-2 text-lg">📄</span>
+                <span className="font-medium">Review Applications</span>
+              </button>
+
+              {/* Company Settings */}
+              <button
+                onClick={() => navigate("/employer-profile")}
+                className="flex items-center justify-center py-3 border rounded-lg hover:bg-gray-50 transition"
+              >
+                <span className="mr-2 text-lg">⚙️</span>
+                <span className="font-medium">Company Settings</span>
+              </button>
+
+            </div>
           </div>
 
         </div>
