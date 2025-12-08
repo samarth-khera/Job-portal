@@ -14,14 +14,23 @@ router.post("/login", login);
 // Get logged-in user
 router.get("/me", protect, getMe);
 
+// ------------------------------------------
 // Upload image (profile picture / company logo)
+// FIXED: Now returns { url: ... } 
+// so your frontend:
+//     setForm({ ...form, field: res.data.url })
+// will work correctly.
+// ------------------------------------------
 router.post("/upload-image", upload.single("image"), (req, res) => {
-  if (!req.file)
+  if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
+  }
 
   const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
 
-  res.status(200).json({ imageUrl });
+  // ⭐ IMPORTANT FIX ⭐
+  // Frontend expects { url: "..." }
+  return res.status(200).json({ url: imageUrl });
 });
 
 module.exports = router;

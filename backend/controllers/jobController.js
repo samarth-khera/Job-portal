@@ -1,9 +1,9 @@
 const Job = require("../models/Job");
 const Application = require("../models/Application");
-const SavedJob = require("../models/SavedJob");
 
-// @desc    Create a new job
-// @route   POST /api/jobs
+// ===============================================================
+// CREATE JOB
+// ===============================================================
 exports.createJob = async (req, res) => {
   try {
     const {
@@ -15,6 +15,7 @@ exports.createJob = async (req, res) => {
       mode,
       salaryMin,
       salaryMax,
+      location,
     } = req.body;
 
     const job = await Job.create({
@@ -26,6 +27,7 @@ exports.createJob = async (req, res) => {
       mode,
       salaryMin,
       salaryMax,
+      location,
       company: req.user._id, // logged-in employer
     });
 
@@ -35,8 +37,9 @@ exports.createJob = async (req, res) => {
   }
 };
 
-// @desc    Get all jobs
-// @route   GET /api/jobs
+// ===============================================================
+// GET ALL JOBS
+// ===============================================================
 exports.getJobs = async (req, res) => {
   try {
     const jobs = await Job.find().populate(
@@ -49,19 +52,33 @@ exports.getJobs = async (req, res) => {
   }
 };
 
-// @desc    Get jobs for logged-in user (Employer can see posted jobs)
-// @route   GET /api/jobs/employer
+// ===============================================================
+// GET JOBS BY EMPLOYER (WITH applicants count)
+// ===============================================================
 exports.getJobsByEmployer = async (req, res) => {
   try {
-    const jobs = await Job.find({ company: req.user._id });
-    res.json(jobs);
+    const jobs = await Job.find({ company: req.user._id }).lean();
+
+    const jobsWithCounts = await Promise.all(
+      jobs.map(async (job) => {
+        const count = await Application.countDocuments({ job: job._id });
+
+        return {
+          ...job,
+          applicantsCount: count,   // ← IMPORTANT FIX
+        };
+      })
+    );
+
+    res.json(jobsWithCounts);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// @desc    Get single job by ID
-// @route   GET /api/jobs/:id
+// ===============================================================
+// GET SINGLE JOB BY ID
+// ===============================================================
 exports.getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id).populate(
@@ -77,8 +94,9 @@ exports.getJobById = async (req, res) => {
   }
 };
 
-// @desc    Update a job (Employer only)
-// @route   PUT /api/jobs/:id
+// ===============================================================
+// UPDATE JOB
+// ===============================================================
 exports.updateJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -99,8 +117,9 @@ exports.updateJob = async (req, res) => {
   }
 };
 
-// @desc    Delete job (Employer only)
-// @route   DELETE /api/jobs/:id
+// ===============================================================
+// DELETE JOB
+// ===============================================================
 exports.deleteJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
@@ -119,8 +138,9 @@ exports.deleteJob = async (req, res) => {
   }
 };
 
-// @desc    Toggle job close/open
-// @route   PUT /api/jobs/toggle-close/:id
+// ===============================================================
+// TOGGLE JOB CLOSE / OPEN
+// ===============================================================
 exports.toggleCloseJob = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);

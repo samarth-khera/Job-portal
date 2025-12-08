@@ -49,6 +49,17 @@ const EmployerDashboard = () => {
   }, []);
 
   // ------------------------------------------------------
+  // Helper to navigate to applicants page for a job
+  // ------------------------------------------------------
+  const goToApplicantsForJob = (jobId) => {
+    if (!jobId) {
+      alert("No job available to review applications.");
+      return;
+    }
+    navigate(`/applicants?jobId=${jobId}`);
+  };
+
+  // ------------------------------------------------------
   // STAT CARD
   // ------------------------------------------------------
   const StatCard = ({ title, count, trend, icon: Icon, color }) => (
@@ -146,9 +157,17 @@ const EmployerDashboard = () => {
                 </p>
               </div>
 
+              {/* If we have a recent job, go to its applicants; otherwise go to generic applicants page */}
               <button
                 className="text-blue-600 font-medium text-sm hover:underline"
-                onClick={() => navigate("/manage-applications")}
+                onClick={() => {
+                  const firstJobId = recentJobs[0]?._id;
+                  if (firstJobId) {
+                    navigate(`/applicants?jobId=${firstJobId}`);
+                  } else {
+                    navigate("/applicants");
+                  }
+                }}
               >
                 View all →
               </button>
@@ -171,7 +190,7 @@ const EmployerDashboard = () => {
           </div>
 
           {/* ------------------------------------------------------ */}
-          {/* QUICK ACTIONS (NEW SECTION YOU WANTED) */}
+          {/* QUICK ACTIONS */}
           {/* ------------------------------------------------------ */}
           <div className="bg-white border rounded-xl p-6">
             <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
@@ -187,9 +206,16 @@ const EmployerDashboard = () => {
                 <span className="font-medium">Post New Job</span>
               </button>
 
-              {/* Review Applications */}
+              {/* Review Applications (go to applicants for most recent job) */}
               <button
-                onClick={() => navigate("/manage-applications")}
+                onClick={() => {
+                  const firstJobId = recentJobs[0]?._id;
+                  if (!firstJobId) {
+                    alert("No recent job found to review applications.");
+                    return;
+                  }
+                  goToApplicantsForJob(firstJobId);
+                }}
                 className="flex items-center justify-center py-3 border rounded-lg hover:bg-gray-50 transition"
               >
                 <span className="mr-2 text-lg">📄</span>
@@ -198,7 +224,7 @@ const EmployerDashboard = () => {
 
               {/* Company Settings */}
               <button
-                onClick={() => navigate("/employer-profile")}
+                onClick={() => navigate("/company-profile")}
                 className="flex items-center justify-center py-3 border rounded-lg hover:bg-gray-50 transition"
               >
                 <span className="mr-2 text-lg">⚙️</span>

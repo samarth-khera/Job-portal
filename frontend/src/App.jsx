@@ -17,56 +17,59 @@ import JobSeekerDashboard from "./pages/JobSeeker/JobSeekerDashboard";
 import JobDetails from "./pages/JobSeeker/JobDetails";
 import SavedJobs from "./pages/JobSeeker/SavedJobs";
 import UserProfile from "./pages/JobSeeker/UserProfile";
+import MyApplications from "./pages/JobSeeker/MyApplications"; // NEW
 
 // Employer pages
 import EmployerDashboard from "./pages/Employer/EmployerDashboard";
 import JobPostingForm from "./pages/Employer/JobPostingForm";
-import ManageJobs from "./pages/Employer/MangeJobs";   // ✅ Corrected import
-import ApplicationViewer from "./pages/Employer/ApplicationViewer";
+import ManageJobs from "./pages/Employer/MangeJobs";
+import ApplicantsViewer from "./pages/Employer/ApplicationViewer";
+import ApplicationPreview from "./components/Cards/ApplicationPreview";
 import EmployerProfilePage from "./pages/Employer/EmployerProfilePage";
+import EditEmployerProfile from "./pages/Employer/EditEmployerProfilePage";
 
 // Protected Route
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 const App = () => {
   return (
-    <div>
-      <Router>
-        <Routes>
+    <Router>
+      <Routes>
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
 
-          {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-
-          {/* Job Seeker Routes */}
+        {/* ====================================================== */}
+        {/* JOB SEEKER PROTECTED ROUTES */}
+        {/* ====================================================== */}
+        <Route element={<ProtectedRoute requiredRole="jobseeker" />}>
           <Route path="/find-jobs" element={<JobSeekerDashboard />} />
           <Route path="/job/:jobId" element={<JobDetails />} />
           <Route path="/saved-jobs" element={<SavedJobs />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/my-applications" element={<MyApplications />} />
+        </Route>
 
-          {/* Employer Protected Routes */}
-          <Route element={<ProtectedRoute requiredRole="employer" />}>
-            <Route path="/employer-dashboard" element={<EmployerDashboard />} />
-            <Route path="/post-job" element={<JobPostingForm />} />
-            <Route path="/manage-jobs" element={<ManageJobs />} />
-            <Route path="/applicants" element={<ApplicationViewer />} />
-            <Route path="/company-profile" element={<EmployerProfilePage />} />
-          </Route>
+        {/* ====================================================== */}
+        {/* EMPLOYER PROTECTED ROUTES */}
+        {/* ====================================================== */}
+        <Route element={<ProtectedRoute requiredRole="employer" />}>
+          <Route path="/employer-dashboard" element={<EmployerDashboard />} />
+          <Route path="/post-job" element={<JobPostingForm />} />
+          <Route path="/manage-jobs" element={<ManageJobs />} />
+          <Route path="/applicants" element={<ApplicantsViewer />} />
+          <Route path="/application/:id" element={<ApplicationPreview />} />
+          <Route path="/company-profile" element={<EmployerProfilePage />} />
+          <Route path="/employer/edit-profile" element={<EditEmployerProfile />} />
+        </Route>
 
-          {/* Catch-all redirect */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+        {/* UNKNOWN ROUTES */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
 
-        </Routes>
-      </Router>
-
-      <Toaster
-        toastOptions={{
-          className: "",
-          style: { fontSize: "13px" }
-        }}
-      />
-    </div>
+      <Toaster toastOptions={{ style: { fontSize: "13px" } }} />
+    </Router>
   );
 };
 

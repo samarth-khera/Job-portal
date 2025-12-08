@@ -1,26 +1,27 @@
 import axios from "axios";
 import { BASE_URL } from "./apiPaths";
 
+// ========================
+// AXIOS INSTANCE
+// ========================
 const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL, // http://localhost:5000
   timeout: 8000,
-  // ❌ Remove this line because you are NOT using cookies
-  // withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
 });
 
-// ======================
-// Request Interceptor
-// ======================
+// ========================
+// REQUEST INTERCEPTOR
+// ========================
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
@@ -28,15 +29,16 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ======================
-// Response Interceptor
-// ======================
+// ========================
+// RESPONSE INTERCEPTOR
+// ========================
 axiosInstance.interceptors.response.use(
   (response) => response,
 
   (error) => {
     if (error.response) {
       if (error.response.status === 401) {
+        // Token expired OR no token
         window.location.href = "/login";
       }
 

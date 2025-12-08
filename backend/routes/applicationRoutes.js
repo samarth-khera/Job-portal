@@ -17,6 +17,7 @@ router.get("/my", protect, getMyApplications);
 // @desc   Get applicants for a specific job (Employer)
 router.get("/job/:jobId", protect, getApplicantsForJob);
 
+
 // @route  GET /api/applications/:id
 // @desc   Get single application by ID
 router.get("/:id", protect, getSingleApplicationById);

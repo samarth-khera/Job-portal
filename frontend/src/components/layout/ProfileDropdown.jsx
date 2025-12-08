@@ -1,16 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, LogOut, User as UserIcon } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const defaultAvatar =
   "https://cdn-icons-png.flaticon.com/512/3177/3177440.png";
 
 const ProfileDropdown = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handler = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -20,6 +23,10 @@ const ProfileDropdown = () => {
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  // ROLE BASED PROFILE PATH
+  const profilePath =
+    user?.role === "employer" ? "/company-profile" : "/profile";
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -45,21 +52,23 @@ const ProfileDropdown = () => {
             <p className="text-xs text-gray-500">{user?.email || "No email"}</p>
           </div>
 
-          {/* View Profile */}
-          <Link
-            to="/profile"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2 px-4 py-3 text-sm hover:bg-gray-100"
+          {/* ROLE-BASED PROFILE LINK */}
+          <button
+            onClick={() => {
+              navigate(profilePath);
+              setOpen(false);
+            }}
+            className="flex items-center gap-2 w-full px-4 py-3 text-sm hover:bg-gray-100"
           >
             <UserIcon className="w-4 h-4" />
             View Profile
-          </Link>
+          </button>
 
-          {/* Logout */}
+          {/* LOGOUT */}
           <button
             onClick={() => {
               logout();
-              window.location.href = "/login"; // forces redirect
+              navigate("/login");
             }}
             className="flex items-center w-full gap-2 px-4 py-3 text-sm hover:bg-red-100 hover:text-red-600"
           >
