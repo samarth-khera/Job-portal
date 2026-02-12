@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }) => {
   const isJobSeeker = user?.role === "jobseeker";
 
   return (
-    <div className="min-h-screen w-full flex bg-gray-50">
+    <div className="min-h-screen w-full flex bg-slate-50 items-start">
 
       {/* ==================== SIDEBAR ==================== */}
       {isEmployer && <EmployerSidebar />}

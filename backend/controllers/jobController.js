@@ -38,15 +38,45 @@ exports.createJob = async (req, res) => {
 };
 
 // ===============================================================
-// GET ALL JOBS
+// GET ALL JOBS (WITH FILTERS)
 // ===============================================================
 exports.getJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate(
-      "company",
-      "name companyName companyLogo"
-    );
-    res.json(jobs);
+    const { title, location, category, type, salaryMin, salaryMax } = req.query;
+
+    // Build Query Object
+    let query = {};
+
+    if (title) {
+      query.title = { $regex: title, $options: "i" }; // Case-insensitive search
+    }
+
+    if (location) {
+      query.location = { $regex: location, $options: "i" };
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    if (type) {
+      query.type = type;
+    }
+
+    if (salaryMin) {
+      query.salaryMin = { $gte: Number(salaryMin) };
+    }
+
+    if (salaryMax) {
+      query.salaryMax = { $lte: Number(salaryMax) };
+    }
+
+    // Execute Query
+    const jobs = await Job.find(query)
+      .populate("company", "name companyName companyLogo")
+      .sort({ createdAt: -1 }); // Newest first
+
+    res.json({ count: jobs.length, jobs });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

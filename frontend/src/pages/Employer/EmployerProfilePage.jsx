@@ -3,6 +3,8 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import axios from "../../utils/axiosInstance";
 import API_PATHS from "../../utils/apiPaths";
 import { Link } from "react-router-dom";
+import { MapPin, Globe, Mail, Building2, Edit2, Phone, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function EmployerProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -14,7 +16,7 @@ export default function EmployerProfilePage() {
       setProfile(res.data);
     } catch (err) {
       console.error(err);
-      alert("Failed to load profile");
+      // alert("Failed to load profile");
     } finally {
       setLoading(false);
     }
@@ -27,7 +29,9 @@ export default function EmployerProfilePage() {
   if (loading) {
     return (
       <DashboardLayout>
-        <p className="text-gray-500">Loading profile...</p>
+         <div className="flex justify-center py-20">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
       </DashboardLayout>
     );
   }
@@ -35,93 +39,148 @@ export default function EmployerProfilePage() {
   if (!profile) {
     return (
       <DashboardLayout>
-        <p className="text-red-500">Profile not found</p>
+        <div className="text-center py-20 text-red-500">
+            Profile not found. Please try refreshing.
+        </div>
       </DashboardLayout>
     );
   }
 
   return (
     <DashboardLayout>
-      <div className="max-w-3xl mx-auto">
-        {/* Header Row */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold">Employer Profile</h1>
+      <div className="max-w-5xl mx-auto pb-12">
+        
+        {/* === HERO SECTION === */}
+        <div className="relative mb-16">
+            {/* Banner */}
+            <div className="h-48 md:h-64 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-b-3xl -mx-6 -mt-6 md:mx-0 md:mt-0 md:rounded-3xl shadow-lg relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+            </div>
 
-          <Link
-            to="/employer/edit-profile"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            Edit Profile
-          </Link>
+            {/* Profile Header Cards */}
+            <div className="absolute -bottom-12 left-6 right-6 flex flex-col md:flex-row items-end justify-between gap-4">
+                
+                {/* Logo & Name */}
+                <div className="flex items-end gap-6">
+                    <motion.div 
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="w-28 h-28 md:w-32 md:h-32 bg-white p-1 rounded-2xl shadow-xl shadow-black/10"
+                    >
+                        <img 
+                            src={profile.companyLogo || "https://ui-avatars.com/api/?name=Company&background=random"} 
+                            alt="Company Logo" 
+                            className="w-full h-full object-cover rounded-xl bg-gray-50"
+                        />
+                    </motion.div>
+                    <div className="mb-3">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 md:text-white drop-shadow-md">{profile.companyName || profile.name}</h1>
+                        <p className="text-gray-600 md:text-blue-100 flex items-center gap-1.5 text-sm font-medium">
+                            <MapPin size={16}/> {profile.companyLocation || "Location not set"}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Edit Button */}
+                <Link 
+                    to="/employer/edit-profile" 
+                    className="flex items-center gap-2 px-5 py-2.5 bg-white text-gray-700 font-medium rounded-xl shadow-sm border border-gray-200 hover:bg-gray-50 hover:text-blue-600 transition-all mb-3"
+                >
+                    <Edit2 size={16} /> Edit Profile
+                </Link>
+            </div>
         </div>
 
-        {/* Profile Card */}
-        <div className="bg-white shadow border rounded-xl p-6">
-          {/* Profile Picture + Basic Info */}
-          <div className="flex items-center gap-4">
-            <img
-              src={profile.profilePic || "/default-user.png"}
-              alt="profile"
-              className="w-20 h-20 object-cover rounded-full"
-            />
+        {/* === CONTENT GRID === */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 md:mt-8">
+            
+            {/* LEFT: MAIN INFO */}
+            <div className="md:col-span-2 space-y-8">
+                {/* About Section */}
+                <section className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        About the Company
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+                        {profile.companyDescription || "No description provided yet. Add a description to tell candidates about your mission and culture."}
+                    </p>
+                </section>
 
-            <div>
-              <h2 className="text-xl font-semibold">{profile.name}</h2>
-              <p className="text-gray-600">{profile.email}</p>
+                {/* Stat Cards (Mockup) */}
+                <section className="grid grid-cols-2 gap-4">
+                   <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100">
+                      <div className="text-blue-600 mb-2"><Building2 size={24}/></div>
+                      <div className="text-2xl font-bold text-gray-900">12</div>
+                      <div className="text-sm text-gray-500">Active Jobs</div>
+                   </div>
+                   <div className="bg-purple-50 p-5 rounded-2xl border border-purple-100">
+                      <div className="text-purple-600 mb-2"><Calendar size={24}/></div>
+                      <div className="text-2xl font-bold text-gray-900">2024</div>
+                      <div className="text-sm text-gray-500">Member Since</div>
+                   </div>
+                </section>
             </div>
-          </div>
 
-          {/* Personal Information */}
-          <div className="mt-6 border-t pt-4">
-            <h3 className="text-lg font-medium text-gray-800">
-              Personal Information
-            </h3>
+            {/* RIGHT: SIDEBAR */}
+            <div className="space-y-6">
+                
+                {/* Contact Details */}
+                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Contact Info</h3>
+                    
+                    <ul className="space-y-4">
+                        <li className="flex items-start gap-3 text-sm">
+                            <div className="p-2 bg-gray-50 rounded-lg text-gray-500"><Mail size={16}/></div>
+                            <div>
+                                <p className="text-xs text-gray-400 font-medium">Email Address</p>
+                                <p className="text-gray-700 font-medium truncate max-w-[180px]">{profile.email}</p>
+                            </div>
+                        </li>
+                        <li className="flex items-start gap-3 text-sm">
+                             <div className="p-2 bg-gray-50 rounded-lg text-gray-500"><Phone size={16}/></div>
+                            <div>
+                                <p className="text-xs text-gray-400 font-medium">Phone</p>
+                                <p className="text-gray-700 font-medium">{profile.contact || "Not provided"}</p>
+                            </div>
+                        </li>
+                        <li className="flex items-start gap-3 text-sm">
+                             <div className="p-2 bg-gray-50 rounded-lg text-gray-500"><Globe size={16}/></div>
+                            <div>
+                                <p className="text-xs text-gray-400 font-medium">Website</p>
+                                {profile.companyWebsite ? (
+                                    <a 
+                                        href={profile.companyWebsite.startsWith('http') ? profile.companyWebsite : `https://${profile.companyWebsite}`} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 font-medium hover:underline truncate max-w-[200px] block"
+                                    >
+                                        Visit Website
+                                    </a>
+                                ) : (
+                                    <span className="text-gray-400 text-sm">Not provided</span>
+                                )}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-            <p className="mt-2 text-gray-700">
-              <strong>Name:</strong> {profile.name}
-            </p>
+                {/* Primary Contact Person */}
+                <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl text-white shadow-lg">
+                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Account Manager</h3>
+                    <div className="flex items-center gap-4">
+                         <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-xl font-bold">
+                            {profile.name?.charAt(0) || "U"}
+                         </div>
+                         <div>
+                            <p className="font-bold text-lg">{profile.name}</p>
+                            <p className="text-gray-400 text-sm">Recruiter / Admin</p>
+                         </div>
+                    </div>
+                </div>
 
-            <p className="text-gray-700">
-              <strong>Email:</strong> {profile.email}
-            </p>
-          </div>
-
-          {/* Company Information */}
-          <div className="mt-6 border-t pt-4">
-            <h3 className="text-lg font-medium text-gray-800">
-              Company Information
-            </h3>
-
-            <div className="flex items-center gap-4 mt-2">
-              <img
-                src={profile.companyLogo || "/default-company.png"}
-                alt="company-logo"
-                className="w-16 h-16 object-cover rounded-lg border"
-              />
-
-              <div>
-                <p className="text-gray-700">
-                  <strong>Company Name:</strong> {profile.companyName}
-                </p>
-
-                <p className="text-gray-700">
-                  <strong>Location:</strong> {profile.companyLocation || "—"}
-                </p>
-              </div>
             </div>
-          </div>
-
-          {/* About Company */}
-          <div className="mt-6 border-t pt-4">
-            <h3 className="text-lg font-medium text-gray-800">
-              About Company
-            </h3>
-
-            <p className="text-gray-700 mt-2">
-              {profile.companyDescription || "No description provided."}
-            </p>
-          </div>
         </div>
+
       </div>
     </DashboardLayout>
   );

@@ -1,21 +1,26 @@
 import axios from "axios";
-import { BASE_URL } from "./apiPaths";
 
-// ========================
+// =======================================================
+// USE ENV VARIABLE ON VERCEL / PRODUCTION
+// IF NOT AVAILABLE → FALLBACK TO localhost
+// =======================================================
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+// =======================================================
 // AXIOS INSTANCE
-// ========================
+// =======================================================
 const axiosInstance = axios.create({
-  baseURL: BASE_URL, // http://localhost:5000
-  timeout: 8000,
+  baseURL: BASE_URL,
+  timeout: 10000,
   headers: {
-    "Content-Type": "application/json",
     Accept: "application/json",
   },
 });
 
-// ========================
-// REQUEST INTERCEPTOR
-// ========================
+// =======================================================
+// REQUEST INTERCEPTOR → Add Token Automatically
+// =======================================================
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -29,23 +34,27 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ========================
-// RESPONSE INTERCEPTOR
-// ========================
+// =======================================================
+// RESPONSE INTERCEPTOR → Handle Expired Token
+// =======================================================
 axiosInstance.interceptors.response.use(
   (response) => response,
-
   (error) => {
-    if (error.response) {
-      if (error.response.status === 401) {
-        // Token expired OR no token
+    // If backend says Unauthorized → redirect to login
+    if (error.response?.status === 401) {
+      // Prevent redirect during build on Vercel
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         window.location.href = "/login";
       }
+    }
 
-      if (error.response.status === 500) {
-        console.error("Server error. Please try again later.");
-      }
-    } else if (error.code === "ECONNABORTED") {
+    if (error.response?.status === 500) {
+      console.error("Server error. Please try again later.");
+    }
+
+    if (error.code === "ECONNABORTED") {
       console.error("Request timeout. Please try again.");
     }
 

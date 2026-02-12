@@ -15,7 +15,7 @@ const Footer = () => {
         </div>
 
         {/* Tagline */}
-        <p classname="text-gray-600 text-sm max-w-lg mx-auto">
+        <p className="text-gray-600 text-sm max-w-lg mx-auto">
           Connecting talented professionals with innovative companies worldwide.
           Your career success is our mission.
         </p>

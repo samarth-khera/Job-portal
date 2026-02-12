@@ -9,6 +9,7 @@ import JobPostingPreview from "../../components/Cards/JobPostingPreview";
 import axios from "../../utils/axiosInstance";
 import { motion } from "framer-motion";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, CheckCircle, LayoutTemplate } from "lucide-react";
 
 const defaultForm = {
   title: "",
@@ -128,118 +129,143 @@ export default function JobPostingForm() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto pb-12">
 
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">
-            {isEditMode ? "Edit Job" : "Post a New Job"}
-          </h2>
-
-          <div className="flex gap-3">
+        {/* Header / Nav */}
+        <div className="flex items-center gap-4 mb-8">
             <button 
-              onClick={openPreview}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                onClick={() => navigate(-1)}
+                className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
             >
-              Preview
+                <ArrowLeft className="w-5 h-5 text-gray-600"/>
             </button>
-
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              disabled={submitting}
-              onClick={handleSubmit}
-              className={`px-4 py-2 text-white rounded ${
-                submitting ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"
-              }`}
-            >
-              {submitting 
-                ? (isEditMode ? "Updating..." : "Publishing...") 
-                : (isEditMode ? "Update Job" : "Publish Job")}
-            </motion.button>
-          </div>
+            <div>
+                <h1 className="text-2xl font-bold text-gray-800">{isEditMode ? "Edit Job Posting" : "Create New Job Post"}</h1>
+                <p className="text-gray-500 text-sm">Fill in the details to find your next great hire.</p>
+            </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow border space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            {/* Main Form Area */}
+            <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden"
+            >
+               <div className="p-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
+               <div className="p-8 space-y-8">
+                  
+                  {/* Section 1: Basic Info */}
+                  <section>
+                      <h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
+                        <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold">01</span>
+                        Job Details
+                      </h3>
+                      <div className="space-y-1">
+                        <InputField label="Job Title" name="title" value={form.title} onChange={handleChange} placeholder="e.g. Senior Frontend Developer" error={errors.title} />
+                        <InputField label="Location" name="location" value={form.location} onChange={handleChange} placeholder="e.g. Remote, New York, NY" error={errors.location} />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <SelectField label="Category" name="category" options={categories} value={form.category} onChange={handleChange} error={errors.category} />
+                            <SelectField label="Job Type" name="type" options={jobTypes} value={form.type} onChange={handleChange} error={errors.type} />
+                        </div>
+                      </div>
+                  </section>
+                  
+                  <hr className="border-gray-100" />
 
-          <InputField
-            label="Job Title"
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            placeholder="e.g., Senior UI/UX Designer"
-            error={errors.title}
-          />
+                  {/* Section 2: Description */}
+                  <section>
+                      <h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
+                        <span className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">02</span>
+                        Description & Requirements
+                      </h3>
+                      <div className="space-y-1">
+                          <TextareaField label="Job Description" name="description" rows={6} value={form.description} onChange={handleChange} error={errors.description} placeholder="Describe the role, responsibilities, and team culture..." />
+                          <TextareaField label="Requirements" name="requirements" rows={4} value={form.requirements} onChange={handleChange} error={errors.requirements} placeholder="List key qualifications, skills, and experience needed..." />
+                      </div>
+                  </section>
 
-          <InputField
-            label="Location"
-            name="location"
-            value={form.location}
-            onChange={handleChange}
-            placeholder="e.g., New York, NY"
-            error={errors.location}
-          />
+                  <hr className="border-gray-100" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <SelectField
-              label="Category"
-              name="category"
-              options={categories}
-              value={form.category}
-              onChange={handleChange}
-              error={errors.category}
-            />
+                  {/* Section 3: Salary */}
+                  <section>
+                      <h3 className="text-lg font-bold text-gray-800 mb-5 flex items-center gap-2">
+                        <span className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold">03</span>
+                        Salary Range
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <InputField label="Minimum Salary" name="salaryMin" type="number" value={form.salaryMin} onChange={handleChange} error={errors.salaryMin} placeholder="e.g. 50000" />
+                        <InputField label="Maximum Salary" name="salaryMax" type="number" value={form.salaryMax} onChange={handleChange} error={errors.salaryMax} placeholder="e.g. 80000" />
+                      </div>
+                  </section>
+               </div>
+               
+               {/* Footer Actions */}
+               <div className="px-8 py-5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+                   <button 
+                     onClick={() => navigate(-1)}
+                     className="px-5 py-2.5 text-gray-600 font-medium hover:text-gray-900 transition-colors"
+                   >
+                     Cancel
+                   </button>
+                   <div className="flex gap-3">
+                       <button 
+                         onClick={openPreview} 
+                         className="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-medium bg-white hover:bg-gray-50 transition-all flex items-center gap-2"
+                       >
+                         <LayoutTemplate className="w-4 h-4"/> Preview
+                       </button>
+                       <button 
+                         onClick={handleSubmit} 
+                         disabled={submitting}
+                         className={`px-8 py-2.5 rounded-xl font-bold text-white shadow-lg shadow-blue-500/30 transition-all flex items-center gap-2
+                           ${submitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.02] active:scale-[0.98]'}
+                         `}
+                       >
+                         {submitting ? 'Processing...' : (
+                           <>
+                             {isEditMode ? 'Update Job' : 'Publish Job'} <CheckCircle className="w-4 h-4"/>
+                           </>
+                         )}
+                       </button>
+                   </div>
+               </div>
 
-            <SelectField
-              label="Job Type"
-              name="type"
-              options={jobTypes}
-              value={form.type}
-              onChange={handleChange}
-              error={errors.type}
-            />
-          </div>
+            </motion.div>
 
-          <TextareaField
-            label="Job Description"
-            name="description"
-            rows={6}
-            value={form.description}
-            onChange={handleChange}
-            error={errors.description}
-            placeholder="Describe the role…"
-          />
+            {/* Sticky Sidebar Help/Tips */}
+            <motion.div 
+               initial={{ opacity: 0, x: 20 }}
+               animate={{ opacity: 1, x: 0 }}
+               transition={{ delay: 0.2 }}
+               className="hidden lg:block lg:col-span-1 space-y-6 sticky top-8"
+            >
+               <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                  <h4 className="font-bold text-blue-900 text-lg mb-3">Writing a Great Job Post</h4>
+                  <ul className="space-y-3 text-sm text-blue-800/80">
+                     <li className="flex gap-2">
+                        <span className="font-bold">•</span>
+                        <span>Use a clear, standard job title.</span>
+                     </li>
+                     <li className="flex gap-2">
+                        <span className="font-bold">•</span>
+                        <span>Be specific about requirements (years of experience, specific tools).</span>
+                     </li>
+                     <li className="flex gap-2">
+                        <span className="font-bold">•</span>
+                        <span>Include salary range to attract 40% more candidates.</span>
+                     </li>
+                  </ul>
+               </div>
 
-          <TextareaField
-            label="Requirements"
-            name="requirements"
-            rows={4}
-            value={form.requirements}
-            onChange={handleChange}
-            error={errors.requirements}
-            placeholder="List the qualifications…"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <InputField
-              label="Salary Min"
-              name="salaryMin"
-              type="number"
-              value={form.salaryMin}
-              onChange={handleChange}
-              error={errors.salaryMin}
-              placeholder="e.g., 3000"
-            />
-
-            <InputField
-              label="Salary Max"
-              name="salaryMax"
-              type="number"
-              value={form.salaryMax}
-              onChange={handleChange}
-              error={errors.salaryMax}
-              placeholder="e.g., 7000"
-            />
-          </div>
-
+               <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                  <h4 className="font-bold text-gray-800 mb-2">Need Help?</h4>
+                  <p className="text-gray-500 text-sm mb-4">Contact our support team if you have any issues posting your job.</p>
+                  <button className="text-blue-600 text-sm font-semibold hover:underline">Contact Support</button>
+               </div>
+            </motion.div>
+        
         </div>
       </div>
 

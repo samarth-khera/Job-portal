@@ -17,10 +17,15 @@ const app = express();
 // CORS
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://job-portal-kappa-fawn.vercel.app",
+      "https://job-portal-g7trm38cv-samarth-kheras-projects.vercel.app"
+    ],
     credentials: true,
   })
 );
+
 
 // Body parser
 app.use(express.json());
