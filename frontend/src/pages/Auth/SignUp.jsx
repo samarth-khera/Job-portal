@@ -93,31 +93,31 @@ const SignUp = () => {
   // SIGNUP FORM
   // ----------------------
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-slate-100 max-w-[500px] w-full"
+        className="bg-white p-6 sm:p-8 lg:p-10 rounded-2xl shadow-xl border border-slate-100 max-w-[500px] w-full"
       >
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Create Account</h2>
-          <p className="text-slate-500 mt-2 text-lg">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Create Account</h2>
+          <p className="text-slate-500 mt-1 sm:mt-2 text-sm sm:text-base lg:text-lg">
             Join thousands of professionals finding their dream jobs
           </p>
         </div>
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-5 sm:space-y-6" onSubmit={handleSubmit}>
           {/* FULL NAME */}
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <label className="text-sm font-semibold text-slate-700 ml-1">Full Name</label>
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <User className="text-slate-400 w-5 h-5 group-focus-within:text-blue-600 transition-colors" />
+              <div className="absolute inset-y-0 left-0 pl-3.5 sm:pl-4 flex items-center pointer-events-none">
+                <User className="text-slate-400 w-4.5 h-4.5 sm:w-5 sm:h-5 group-focus-within:text-blue-600 transition-colors" />
               </div>
               <input
                 type="text"
-                className="block w-full pl-11 pr-4 py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out"
+                className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 text-sm sm:text-base placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out"
                 placeholder="Ex. John Doe"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
@@ -126,15 +126,15 @@ const SignUp = () => {
           </div>
 
           {/* EMAIL */}
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <label className="text-sm font-semibold text-slate-700 ml-1">Email Address</label>
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Mail className="text-slate-400 w-5 h-5 group-focus-within:text-blue-600 transition-colors" />
+              <div className="absolute inset-y-0 left-0 pl-3.5 sm:pl-4 flex items-center pointer-events-none">
+                <Mail className="text-slate-400 w-4.5 h-4.5 sm:w-5 sm:h-5 group-focus-within:text-blue-600 transition-colors" />
               </div>
               <input
                 type="email"
-                 className="block w-full pl-11 pr-4 py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out"
+                 className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 text-sm sm:text-base placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out"
                 placeholder="Ex. john@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -143,15 +143,15 @@ const SignUp = () => {
           </div>
 
           {/* PASSWORD */}
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <label className="text-sm font-semibold text-slate-700 ml-1">Password</label>
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Lock className="text-slate-400 w-5 h-5 group-focus-within:text-blue-600 transition-colors" />
+              <div className="absolute inset-y-0 left-0 pl-3.5 sm:pl-4 flex items-center pointer-events-none">
+                <Lock className="text-slate-400 w-4.5 h-4.5 sm:w-5 sm:h-5 group-focus-within:text-blue-600 transition-colors" />
               </div>
               <input
                 type="password"
-                 className="block w-full pl-11 pr-4 py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out"
+                 className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 text-sm sm:text-base placeholder:text-slate-400 focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -160,35 +160,35 @@ const SignUp = () => {
           </div>
 
           {/* ROLE SELECTION */}
-          <div className="space-y-3 pt-2">
+          <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
             <label className="text-sm font-semibold text-slate-700 ml-1">I am a...</label>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <div
                 onClick={() => setRole("jobseeker")}
-                className={`relative p-4 rounded-xl cursor-pointer flex flex-col items-center justify-center transition-all duration-200 border-0 ring-1 ${
+                className={`relative p-3 sm:p-4 rounded-xl cursor-pointer flex flex-col items-center justify-center transition-all duration-200 border-0 ring-1 ${
                   role === "jobseeker" 
                     ? "ring-2 ring-blue-600 bg-blue-50/50 shadow-sm" 
                     : "ring-slate-200 hover:ring-slate-300 hover:bg-slate-50 bg-white"
                 }`}
               >
-                 <div className={`p-2 rounded-full mb-2 ${role === 'jobseeker' ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-500'}`}>
-                    <User className="w-5 h-5" />
+                 <div className={`p-2 rounded-full mb-1 sm:mb-2 ${role === 'jobseeker' ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-500'}`}>
+                    <User className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
                  </div>
-                <p className={`font-semibold text-sm ${role==='jobseeker' ? 'text-blue-700' : 'text-slate-600'}`}>Job Seeker</p>
+                <p className={`font-semibold text-xs sm:text-sm ${role==='jobseeker' ? 'text-blue-700' : 'text-slate-600'}`}>Job Seeker</p>
               </div>
 
               <div
                 onClick={() => setRole("employer")}
-                className={`relative p-4 rounded-xl cursor-pointer flex flex-col items-center justify-center transition-all duration-200 border-0 ring-1 ${
+                className={`relative p-3 sm:p-4 rounded-xl cursor-pointer flex flex-col items-center justify-center transition-all duration-200 border-0 ring-1 ${
                   role === "employer" 
                     ? "ring-2 ring-indigo-600 bg-indigo-50/50 shadow-sm" 
                     : "ring-slate-200 hover:ring-slate-300 hover:bg-slate-50 bg-white"
                 }`}
               >
-                <div className={`p-2 rounded-full mb-2 ${role === 'employer' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'}`}>
-                    <Briefcase className="w-5 h-5" />
+                <div className={`p-2 rounded-full mb-1 sm:mb-2 ${role === 'employer' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'}`}>
+                    <Briefcase className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
                  </div>
-                 <p className={`font-semibold text-sm ${role==='employer' ? 'text-indigo-700' : 'text-slate-600'}`}>Employer</p>
+                 <p className={`font-semibold text-xs sm:text-sm ${role==='employer' ? 'text-indigo-700' : 'text-slate-600'}`}>Employer</p>
               </div>
             </div>
           </div>
@@ -197,11 +197,11 @@ const SignUp = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex justify-center items-center active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed text-base"
+            className="w-full mt-6 sm:mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 sm:py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex justify-center items-center active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed text-sm sm:text-base"
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin mr-2 h-5 w-5" /> Creating Account...
+                <Loader2 className="animate-spin mr-2 h-4.5 w-4.5 sm:h-5 sm:w-5" /> Creating Account...
               </>
             ) : (
               "Create Account"
@@ -209,9 +209,9 @@ const SignUp = () => {
           </button>
         </form>
 
-        <p className="text-center mt-8 text-slate-600">
+        <p className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-slate-600">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline transition-all ml-1">
+          <Link to="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline transition-all ml-1 text-sm sm:text-base">
             Login here
           </Link>
         </p>

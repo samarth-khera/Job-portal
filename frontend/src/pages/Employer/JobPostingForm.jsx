@@ -202,24 +202,24 @@ export default function JobPostingForm() {
                </div>
                
                {/* Footer Actions */}
-               <div className="px-8 py-5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+               <div className="px-5 sm:px-8 py-5 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                    <button 
                      onClick={() => navigate(-1)}
-                     className="px-5 py-2.5 text-gray-600 font-medium hover:text-gray-900 transition-colors"
+                     className="w-full sm:w-auto px-5 py-2.5 text-gray-600 font-medium hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-colors order-2 sm:order-1"
                    >
                      Cancel
                    </button>
-                   <div className="flex gap-3">
+                   <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto order-1 sm:order-2">
                        <button 
                          onClick={openPreview} 
-                         className="px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-medium bg-white hover:bg-gray-50 transition-all flex items-center gap-2"
+                         className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-medium bg-white hover:bg-gray-50 transition-all flex justify-center items-center gap-2"
                        >
                          <LayoutTemplate className="w-4 h-4"/> Preview
                        </button>
                        <button 
                          onClick={handleSubmit} 
                          disabled={submitting}
-                         className={`px-8 py-2.5 rounded-xl font-bold text-white shadow-lg shadow-blue-500/30 transition-all flex items-center gap-2
+                         className={`w-full sm:w-auto px-8 py-2.5 rounded-xl font-bold text-white shadow-lg shadow-blue-500/30 transition-all flex justify-center items-center gap-2
                            ${submitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-[1.02] active:scale-[0.98]'}
                          `}
                        >

@@ -149,65 +149,67 @@ export default function ManageJobs() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95 }}
                             key={job._id} 
-                            className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                            className="bg-white rounded-2xl border border-gray-100 p-4 md:p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-x-4"
                         >
                             {/* LEFT: INFO */}
-                            <div className="flex items-start gap-4 flex-1">
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${job.isClosed ? 'bg-gray-100 text-gray-400' : 'bg-blue-50 text-blue-600'}`}>
-                                    <Briefcase size={24} />
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4 flex-1 w-full md:w-auto">
+                                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 ${job.isClosed ? 'bg-gray-100 text-gray-400' : 'bg-blue-50 text-blue-600'}`}>
+                                    <Briefcase size={20} className="md:w-6 md:h-6" />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="font-bold text-lg text-gray-800 group-hover:text-blue-600 transition-colors">{job.title}</h3>
-                                    <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                                    <h3 className="font-bold text-base md:text-lg text-gray-800 group-hover:text-blue-600 transition-colors">{job.title}</h3>
+                                    <div className="flex flex-wrap items-center gap-2 md:gap-3 text-xs md:text-sm text-gray-500">
                                         <span className="bg-gray-100 px-2 py-0.5 rounded text-xs font-medium text-gray-600">{job.type}</span>
-                                        <span>•</span>
+                                        <span className="hidden sm:inline">•</span>
                                         <span className="flex items-center gap-1"><Calendar size={14}/> {new Date(job.createdAt).toLocaleDateString()}</span>
-                                        <span>•</span>
+                                        <span className="hidden sm:inline">•</span>
                                         <span>{job.location}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* MIDDLE: METRICS */}
-                            <div className="flex items-center gap-6 px-4 py-2 bg-gray-50 rounded-xl border border-gray-100 md:mr-4 w-full md:w-auto justify-between md:justify-start">
-                                <div className="text-center md:text-left">
-                                    <p className="text-xs text-gray-500 font-medium uppercase">Applicants</p>
-                                    <p className="text-lg font-bold text-gray-800">{job.applicantsCount || 0}</p>
+                            {/* MIDDLE: METRICS (Stack below on mobile) */}
+                            <div className="flex items-center justify-between w-full md:w-auto px-4 py-2 bg-gray-50 rounded-xl border border-gray-100 md:mr-4 gap-4 md:gap-6 mt-2 md:mt-0">
+                                <div className="text-left">
+                                    <p className="text-[10px] md:text-xs text-gray-500 font-medium uppercase">Applicants</p>
+                                    <p className="text-base md:text-lg font-bold text-gray-800">{job.applicantsCount || 0}</p>
                                 </div>
                                 <div className="w-px h-8 bg-gray-200"></div>
                                 <button 
                                     onClick={() => navigate(`/applicants?jobId=${job._id}`)}
-                                    className="text-sm font-medium text-blue-600 hover:underline flex items-center gap-1"
+                                    className="text-sm font-medium text-blue-600 hover:underline flex items-center gap-1 shrink-0"
                                 >
                                     View Candidates <Users size={14}/>
                                 </button>
                             </div>
 
-                            {/* RIGHT: ACTIONS */}
-                            <div className="flex items-center gap-2 w-full md:w-auto justify-end border-t md:border-t-0 pt-4 md:pt-0">
+                            {/* RIGHT: ACTIONS (Stack below metrics on mobile) */}
+                            <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto mt-2 md:mt-0 pt-2 md:pt-0 border-t md:border-t-0 border-gray-100">
                                 <button 
                                     onClick={() => toggleJobStatus(job._id, job.isClosed)}
-                                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${job.isClosed ? 'bg-green-50 text-green-700 hover:bg-green-100' : 'bg-orange-50 text-orange-700 hover:bg-orange-100'}`}
+                                    className={`px-3 py-1.5 md:py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${job.isClosed ? 'bg-green-50 text-green-700 hover:bg-green-100' : 'bg-orange-50 text-orange-700 hover:bg-orange-100'}`}
                                 >
                                     {job.isClosed ? <CheckCircle size={16}/> : <XCircle size={16}/>}
                                     {job.isClosed ? "Reopen" : "Close"}
                                 </button>
 
-                                <button 
-                                    onClick={() => navigate(`/post-job?id=${job._id}`)}
-                                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
-                                    title="Edit Job"
-                                >
-                                    <Edit size={18} />
-                                </button>
+                                <div className="flex items-center gap-1">
+                                    <button 
+                                        onClick={() => navigate(`/post-job?id=${job._id}`)}
+                                        className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                                        title="Edit Job"
+                                    >
+                                        <Edit size={18} />
+                                    </button>
 
-                                <button 
-                                    onClick={() => deleteJob(job._id)}
-                                    className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                    title="Delete Job"
-                                >
-                                    <Trash2 size={18} />
-                                </button>
+                                    <button 
+                                        onClick={() => deleteJob(job._id)}
+                                        className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                        title="Delete Job"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
                             </div>
 
                         </motion.div>

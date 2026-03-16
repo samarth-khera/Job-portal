@@ -98,34 +98,36 @@ export default function JobDetails() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Back Button */}
-        <Link to="/find-jobs" className="inline-flex items-center text-slate-500 hover:text-blue-600 mb-6 transition-colors font-medium">
+        <Link to="/find-jobs" className="inline-flex items-center text-slate-500 hover:text-blue-600 mb-4 md:mb-6 transition-colors font-medium">
            <ChevronLeft size={20} className="mr-1" /> Back to Jobs
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
            {/* MAIN CONTENT (Left Column) */}
-           <div className="lg:col-span-2 space-y-6">
+           <div className="w-full lg:w-2/3 space-y-6">
               
               {/* HEADER CARD */}
-              <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overflow-hidden">
-                 <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-50 z-0"></div>
+              <div className="bg-white rounded-2xl p-5 md:p-6 border border-slate-200 shadow-sm relative overflow-hidden">
+                 <div className="absolute top-0 left-0 w-full h-20 md:h-24 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-50 z-0"></div>
                  
-                 <div className="relative z-10 flex flex-col md:flex-row gap-6 mt-4">
-                    <div className="w-24 h-24 rounded-2xl border-2 border-white bg-white shadow-sm flex-shrink-0 flex items-center justify-center overflow-hidden">
+                 <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6 mt-2 md:mt-4">
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl border-2 border-white bg-white shadow-sm flex-shrink-0 flex items-center justify-center overflow-hidden">
                        {job.company?.companyLogo ? (
                          <img src={job.company.companyLogo} alt="company" className="w-full h-full object-cover" />
                        ) : (
-                         <Building2 className="w-10 h-10 text-slate-300" />
+                         <Building2 className="w-8 h-8 md:w-10 md:h-10 text-slate-300" />
                        )}
                     </div>
                     
-                    <div className="flex-1">
-                       <h1 className="text-3xl font-bold text-slate-900 leading-tight mb-2">{job.title}</h1>
-                       <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-slate-600">
+                    <div className="flex-1 w-full">
+                       <h1 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-3 md:mb-2">{job.title}</h1>
+                       <div className="flex flex-col sm:flex-row flex-wrap items-center sm:justify-start gap-2 sm:gap-4 text-sm font-medium text-slate-600 justify-center">
                           <span className="flex items-center gap-1.5"><Building2 size={16} className="text-blue-500" /> {job.company?.companyName}</span>
+                          <span className="hidden sm:inline text-slate-300">•</span>
                           <span className="flex items-center gap-1.5"><MapPin size={16} className="text-blue-500" /> {job.location || "Remote"}</span>
+                          <span className="hidden sm:inline text-slate-300">•</span>
                           <span className="flex items-center gap-1.5"><Clock size={16} className="text-blue-500" /> {job.type}</span>
                        </div>
                     </div>
@@ -133,29 +135,44 @@ export default function JobDetails() {
               </div>
 
               {/* DESCRIPTION */}
-              <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-                 <h3 className="text-xl font-bold text-slate-900 mb-4">Job Description</h3>
-                 <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed whitespace-pre-line">
+              <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm">
+                 <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-3 md:mb-4">Job Description</h3>
+                 <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed whitespace-pre-line text-sm md:text-base">
                     {job.description}
                  </div>
 
-                 <div className="my-8 border-t border-slate-100"></div>
+                 <div className="my-6 md:my-8 border-t border-slate-100"></div>
 
-                 <h3 className="text-xl font-bold text-slate-900 mb-4">Requirements</h3>
-                 <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed whitespace-pre-line">
+                 <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-3 md:mb-4">Requirements</h3>
+                 <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed whitespace-pre-line text-sm md:text-base">
                     {job.requirements}
                  </div>
               </div>
            </div>
 
            {/* SIDEBAR (Right Column) */}
-           <div className="space-y-6">
+           <div className="w-full lg:w-1/3 space-y-6">
               {/* ACTION CARD */}
-              <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm sticky top-24">
-                 <h3 className="font-bold text-slate-900 mb-4 text-lg">Job Overview</h3>
+              <div className="bg-white rounded-2xl p-5 md:p-6 border border-slate-200 shadow-sm lg:sticky lg:top-24">
+                 <h3 className="font-bold text-slate-900 mb-4 text-lg hidden lg:block">Job Overview</h3>
                  
-                 <div className="space-y-4 mb-6">
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50">
+                 {/* Mobile Apply Button (Top of Action Card on small screens) */}
+                 <div className="lg:hidden mb-6">
+                   <button
+                        onClick={handleApply}
+                        disabled={isApplied}
+                        className={`w-full py-3.5 rounded-xl font-bold shadow-md transition-all active:scale-95 flex items-center justify-center gap-2
+                          ${isApplied 
+                            ? "bg-green-100 text-green-700 cursor-not-allowed" 
+                            : "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200"}`
+                        }
+                      >
+                        {isApplied ? "Application Sent" : "Apply Now"}
+                    </button>
+                 </div>
+
+                 <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3 md:gap-4 mb-6">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 w-full">
                        <div className="bg-white p-2 rounded-lg shadow-sm text-green-600"><DollarSign size={20} /></div>
                        <div>
                           <p className="text-xs text-slate-500 font-bold uppercase">Salary</p>
@@ -165,7 +182,7 @@ export default function JobDetails() {
                        </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 w-full">
                        <div className="bg-white p-2 rounded-lg shadow-sm text-purple-600"><Briefcase size={20} /></div>
                        <div>
                           <p className="text-xs text-slate-500 font-bold uppercase">Job Type</p>
@@ -173,11 +190,11 @@ export default function JobDetails() {
                        </div>
                     </div>
 
-                     <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50">
+                     <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 w-full">
                        <div className="bg-white p-2 rounded-lg shadow-sm text-orange-600"><MapPin size={20} /></div>
                        <div>
                           <p className="text-xs text-slate-500 font-bold uppercase">Location</p>
-                          <p className="text-sm font-bold text-slate-900">{job.location || "Remote"}</p>
+                          <p className="text-sm font-bold text-slate-900 line-clamp-1">{job.location || "Remote"}</p>
                        </div>
                     </div>
                  </div>
@@ -186,7 +203,7 @@ export default function JobDetails() {
                     <button
                       onClick={handleApply}
                       disabled={isApplied}
-                      className={`w-full py-3.5 rounded-xl font-bold shadow-md transition-all active:scale-95 flex items-center justify-center gap-2
+                      className={`hidden lg:flex w-full py-3.5 rounded-xl font-bold shadow-md transition-all active:scale-95 items-center justify-center gap-2
                         ${isApplied 
                           ? "bg-green-100 text-green-700 cursor-not-allowed" 
                           : "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200"}`
@@ -210,9 +227,9 @@ export default function JobDetails() {
               </div>
 
                {/* SHARE CARD (Optional) */}
-               <div className="bg-slate-900 rounded-2xl p-6 text-white text-center shadow-lg">
-                  <h4 className="font-bold text-lg mb-2">Share this Job</h4>
-                  <p className="text-slate-400 text-sm mb-4">Know someone who would be a perfect fit?</p>
+               <div className="bg-slate-900 rounded-2xl p-5 md:p-6 text-white text-center shadow-lg mt-6">
+                  <h4 className="font-bold text-lg mb-1 md:mb-2">Share this Job</h4>
+                  <p className="text-slate-400 text-xs md:text-sm mb-4">Know someone who would be a perfect fit?</p>
                   <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-colors flex items-center justify-center gap-2">
                      <Share2 size={16} /> Copy Link
                   </button>

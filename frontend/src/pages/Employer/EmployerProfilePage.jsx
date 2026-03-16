@@ -51,21 +51,21 @@ export default function EmployerProfilePage() {
       <div className="max-w-5xl mx-auto pb-12">
         
         {/* === HERO SECTION === */}
-        <div className="relative mb-16">
+        <div className="relative mb-32 md:mb-16">
             {/* Banner */}
-            <div className="h-48 md:h-64 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-b-3xl -mx-6 -mt-6 md:mx-0 md:mt-0 md:rounded-3xl shadow-lg relative overflow-hidden">
+            <div className="h-48 md:h-64 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-b-3xl -mx-4 sm:-mx-6 -mt-6 md:mx-0 md:mt-0 md:rounded-3xl shadow-lg relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
             </div>
 
             {/* Profile Header Cards */}
-            <div className="absolute -bottom-12 left-6 right-6 flex flex-col md:flex-row items-end justify-between gap-4">
+            <div className="absolute -bottom-24 md:-bottom-12 left-4 right-4 sm:left-6 sm:right-6 flex flex-col md:flex-row items-center md:items-end justify-between gap-4">
                 
                 {/* Logo & Name */}
-                <div className="flex items-end gap-6">
+                <div className="flex flex-col md:flex-row items-center md:items-end gap-3 md:gap-6 text-center md:text-left">
                     <motion.div 
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="w-28 h-28 md:w-32 md:h-32 bg-white p-1 rounded-2xl shadow-xl shadow-black/10"
+                        className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-white p-1 rounded-2xl shadow-xl shadow-black/10"
                     >
                         <img 
                             src={profile.companyLogo || "https://ui-avatars.com/api/?name=Company&background=random"} 
@@ -73,9 +73,9 @@ export default function EmployerProfilePage() {
                             className="w-full h-full object-cover rounded-xl bg-gray-50"
                         />
                     </motion.div>
-                    <div className="mb-3">
-                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 md:text-white drop-shadow-md">{profile.companyName || profile.name}</h1>
-                        <p className="text-gray-600 md:text-blue-100 flex items-center gap-1.5 text-sm font-medium">
+                    <div className="mb-1 md:mb-3">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 md:text-white drop-shadow-md">{profile.companyName || profile.name}</h1>
+                        <p className="text-gray-600 md:text-blue-100 flex items-center justify-center md:justify-start gap-1.5 text-xs sm:text-sm font-medium mt-1">
                             <MapPin size={16}/> {profile.companyLocation || "Location not set"}
                         </p>
                     </div>
@@ -84,7 +84,7 @@ export default function EmployerProfilePage() {
                 {/* Edit Button */}
                 <Link 
                     to="/employer/edit-profile" 
-                    className="flex items-center gap-2 px-5 py-2.5 bg-white text-gray-700 font-medium rounded-xl shadow-sm border border-gray-200 hover:bg-gray-50 hover:text-blue-600 transition-all mb-3"
+                    className="flex items-center justify-center gap-2 px-6 py-2.5 bg-white text-gray-700 font-medium rounded-xl shadow-sm border border-gray-200 hover:bg-gray-50 hover:text-blue-600 transition-all mb-1 md:mb-3 w-full md:w-auto"
                 >
                     <Edit2 size={16} /> Edit Profile
                 </Link>
@@ -92,31 +92,31 @@ export default function EmployerProfilePage() {
         </div>
 
         {/* === CONTENT GRID === */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 md:mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-8">
             
             {/* LEFT: MAIN INFO */}
-            <div className="md:col-span-2 space-y-8">
+            <div className="md:col-span-2 space-y-6 sm:space-y-8">
                 {/* About Section */}
-                <section className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <section className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 sm:mb-4 flex items-center gap-2">
                         About the Company
                     </h3>
-                    <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+                    <p className="text-sm sm:text-base text-gray-600 leading-relaxed whitespace-pre-line">
                         {profile.companyDescription || "No description provided yet. Add a description to tell candidates about your mission and culture."}
                     </p>
                 </section>
 
                 {/* Stat Cards (Mockup) */}
-                <section className="grid grid-cols-2 gap-4">
-                   <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100">
-                      <div className="text-blue-600 mb-2"><Building2 size={24}/></div>
-                      <div className="text-2xl font-bold text-gray-900">12</div>
-                      <div className="text-sm text-gray-500">Active Jobs</div>
+                <section className="grid grid-cols-2 gap-3 sm:gap-4">
+                   <div className="bg-blue-50 p-4 sm:p-5 rounded-2xl border border-blue-100">
+                      <div className="text-blue-600 mb-1 sm:mb-2"><Building2 size={24} className="w-5 h-5 sm:w-6 sm:h-6"/></div>
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900">12</div>
+                      <div className="text-xs sm:text-sm text-gray-500">Active Jobs</div>
                    </div>
-                   <div className="bg-purple-50 p-5 rounded-2xl border border-purple-100">
-                      <div className="text-purple-600 mb-2"><Calendar size={24}/></div>
-                      <div className="text-2xl font-bold text-gray-900">2024</div>
-                      <div className="text-sm text-gray-500">Member Since</div>
+                   <div className="bg-purple-50 p-4 sm:p-5 rounded-2xl border border-purple-100">
+                      <div className="text-purple-600 mb-1 sm:mb-2"><Calendar size={24} className="w-5 h-5 sm:w-6 sm:h-6"/></div>
+                      <div className="text-xl sm:text-2xl font-bold text-gray-900">2024</div>
+                      <div className="text-xs sm:text-sm text-gray-500">Member Since</div>
                    </div>
                 </section>
             </div>

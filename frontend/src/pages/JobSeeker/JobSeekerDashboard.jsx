@@ -78,10 +78,10 @@ export default function JobSeekerDashboard() {
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500 rounded-full blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
           
           <div className="max-w-7xl mx-auto relative z-10 text-center mb-10">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 md:mb-6">
               Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-200">Dream Career</span>
             </h1>
-            <p className="text-xl text-indigo-100 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-indigo-100 max-w-2xl mx-auto leading-relaxed px-2">
               Discover opportunities that align with your passion and potential.
             </p>
           </div>

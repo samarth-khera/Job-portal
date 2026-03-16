@@ -93,13 +93,13 @@ export default function ApplicantsViewer() {
                  </div>
             ) : (
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+                    <table className="w-full text-left border-collapse min-w-[600px]">
                         <thead>
-                            <tr className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold">
-                                <th className="px-6 py-4">Candidate</th>
-                                <th className="px-6 py-4">Applied Date</th>
-                                <th className="px-6 py-4 text-center">Resume</th>
-                                <th className="px-6 py-4 text-right">Action</th>
+                            <tr className="bg-gray-50 text-gray-500 text-xs sm:text-sm uppercase tracking-wider font-semibold">
+                                <th className="px-4 sm:px-6 py-4">Candidate</th>
+                                <th className="px-4 sm:px-6 py-4 hidden sm:table-cell">Applied Date</th>
+                                <th className="px-4 sm:px-6 py-4 text-center">Resume</th>
+                                <th className="px-4 sm:px-6 py-4 text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -112,45 +112,45 @@ export default function ApplicantsViewer() {
                                         key={app._id} 
                                         className="hover:bg-blue-50/50 transition-colors group"
                                     >
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-600 flex items-center justify-center font-bold">
+                                        <td className="px-4 sm:px-6 py-4">
+                                            <div className="flex items-center gap-3 sm:gap-4">
+                                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-600 flex items-center justify-center font-bold text-sm sm:text-base shrink-0">
                                                     {app.applicant?.name?.charAt(0).toUpperCase() || "U"}
                                                 </div>
-                                                <div>
-                                                    <div className="font-semibold text-gray-900">{app.applicant?.name || "Unknown"}</div>
-                                                    <div className="text-sm text-gray-500 flex items-center gap-1">
-                                                        <Mail size={12}/> {app.applicant?.email}
+                                                <div className="min-w-0">
+                                                    <div className="font-semibold text-gray-900 text-sm sm:text-base truncate">{app.applicant?.name || "Unknown"}</div>
+                                                    <div className="text-xs sm:text-sm text-gray-500 flex items-center gap-1 truncate">
+                                                        <Mail size={12} className="shrink-0"/> <span className="truncate">{app.applicant?.email}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">
-                                            <div className="flex items-center gap-2">
+                                        <td className="px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-600 hidden sm:table-cell">
+                                            <div className="flex items-center gap-2 whitespace-nowrap">
                                                  <Calendar size={14} className="text-gray-400"/>
                                                  {new Date(app.createdAt).toLocaleDateString()}
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-center">
+                                        <td className="px-4 sm:px-6 py-4 text-center">
                                             {app.resume ? (
                                                 <a
                                                   href={app.resume}
                                                   target="_blank"
                                                   rel="noreferrer"
-                                                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 text-sm font-medium hover:bg-blue-100 transition-colors"
+                                                  className="inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 text-xs sm:text-sm font-medium hover:bg-blue-100 transition-colors whitespace-nowrap"
                                                 >
-                                                  <FileText size={14} /> Resume
+                                                  <FileText size={14} /> <span className="hidden sm:inline">Resume</span>
                                                 </a>
                                             ) : (
-                                                <span className="text-gray-400 text-sm">-</span>
+                                                <span className="text-gray-400 text-xs sm:text-sm">-</span>
                                             )}
                                         </td>
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-4 sm:px-6 py-4 text-right">
                                             <Link
                                                 to={`/application/${app._id}`}
-                                                className="inline-flex items-center gap-1 px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 hover:text-blue-600 hover:border-blue-200 hover:bg-white transition-all shadow-sm"
+                                                className="inline-flex items-center justify-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-200 rounded-lg text-xs sm:text-sm text-gray-600 hover:text-blue-600 hover:border-blue-200 hover:bg-white transition-all shadow-sm whitespace-nowrap"
                                             >
-                                                View Profile <ExternalLink size={14} />
+                                                <span className="hidden sm:inline">View Profile</span> <ExternalLink size={14} />
                                             </Link>
                                         </td>
                                     </motion.tr>

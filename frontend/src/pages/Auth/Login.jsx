@@ -94,26 +94,26 @@ const Login = () => {
   // LOGIN FORM
   // -------------------------
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 py-12">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white p-8 rounded-xl shadow-md max-w-md w-full"
+        className="bg-white p-6 sm:p-8 rounded-xl shadow-md max-w-md w-full"
       >
-        <h2 className="text-2xl font-semibold text-center">Welcome Back</h2>
-        <p className="text-gray-600 text-center mb-6">
+        <h2 className="text-xl sm:text-2xl font-semibold text-center">Welcome Back</h2>
+        <p className="text-gray-600 text-center mb-6 text-sm sm:text-base">
           Sign in to your JobPortal account
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* EMAIL */}
           <div>
-            <label className="text-gray-700">Email Address</label>
-            <div className="flex items-center mt-1 border p-3 rounded-lg">
-              <Mail className="text-gray-400 w-5 h-5 mr-3" />
+            <label className="text-gray-700 text-sm sm:text-base font-medium">Email Address</label>
+            <div className="flex items-center mt-1 border border-gray-200 p-2.5 sm:p-3 rounded-lg bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500 focus-within:bg-white transition-all">
+              <Mail className="text-gray-400 w-5 h-5 mr-3 flex-shrink-0" />
               <input
                 type="email"
-                className="w-full focus:outline-none"
+                className="w-full focus:outline-none bg-transparent"
                 placeholder="john@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -124,12 +124,12 @@ const Login = () => {
 
           {/* PASSWORD */}
           <div>
-            <label className="text-gray-700">Password</label>
-            <div className="flex items-center mt-1 border p-3 rounded-lg">
-              <Lock className="text-gray-400 w-5 h-5 mr-3" />
+            <label className="text-gray-700 text-sm sm:text-base font-medium">Password</label>
+            <div className="flex items-center mt-1 border border-gray-200 p-2.5 sm:p-3 rounded-lg bg-gray-50 focus-within:ring-2 focus-within:ring-blue-500 focus-within:bg-white transition-all">
+              <Lock className="text-gray-400 w-5 h-5 mr-3 flex-shrink-0" />
               <input
                 type="password"
-                className="w-full focus:outline-none"
+                className="w-full focus:outline-none bg-transparent"
                 placeholder="••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -142,8 +142,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 
-              text-white py-3 rounded-lg flex justify-center items-center"
+            className="w-full mt-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg flex justify-center items-center shadow-md hover:shadow-lg transition-all active:scale-[0.98] font-medium"
           >
             {loading ? (
               <>
@@ -155,9 +154,9 @@ const Login = () => {
           </button>
         </form>
 
-        <p className="text-center mt-4 text-gray-600">
+        <p className="text-center mt-6 text-sm sm:text-base text-gray-600">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-600">
+          <Link to="/signup" className="text-blue-600 font-medium hover:underline">
             Create one here
           </Link>
         </p>
