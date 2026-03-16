@@ -20,7 +20,9 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://job-portal-kappa-fawn.vercel.app",
-      "https://job-portal-g7trm38cv-samarth-kheras-projects.vercel.app"
+      "https://job-portal-g7trm38cv-samarth-kheras-projects.vercel.app",
+      "https://job-portal-ng4fg9rn8-samarth-kheras-projects.vercel.app",
+      /\.vercel\.app$/
     ],
     credentials: true,
   })
