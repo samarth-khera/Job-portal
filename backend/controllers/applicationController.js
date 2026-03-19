@@ -7,6 +7,10 @@ exports.applyToJob = async (req, res) => {
     const { jobId } = req.params;
     const userId = req.user.id;
 
+    if (!req.user.resume) {
+      return res.status(400).json({ message: "Resume is required to apply for a job. Please update your profile." });
+    }
+
     const alreadyApplied = await Application.findOne({ job: jobId, applicant: userId });
     if (alreadyApplied) {
       return res.status(400).json({ message: "You have already applied for this job" });

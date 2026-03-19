@@ -9,6 +9,7 @@ export const API_PATHS = {
     // Corrected:
     UPDATE_PROFILE: "/api/users/profile",
     DELETE_RESUME: "/api/users/resume",
+    UPLOAD_RESUME: "/api/auth/upload-resume",
   },
 
   ANALYTICS: {

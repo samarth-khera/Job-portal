@@ -29,6 +29,11 @@ exports.register = async (req, res) => {
     if (userExists)
       return res.status(400).json({ message: "User already exists" });
 
+    // Require resume for job seekers
+    if (role === "jobseeker" && !resume) {
+      return res.status(400).json({ message: "Resume is mandatory for job seekers" });
+    }
+
     // const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, 10);
 

@@ -77,11 +77,11 @@ export default function UserProfile() {
     fd.append("resume", file);
 
     try {
-      const res = await axios.post(API_PATHS.AUTH.DELETE_RESUME, fd, {
+      const res = await axios.post(API_PATHS.AUTH.UPLOAD_RESUME, fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      setUser({ ...user, resume: res.data.resume });
+      setUser({ ...user, resume: res.data.url });
     } catch (err) {
       console.error("Resume upload error:", err);
       alert("Failed to upload resume");

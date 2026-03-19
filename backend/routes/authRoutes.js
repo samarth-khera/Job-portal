@@ -2,6 +2,7 @@ const express = require("express");
 const { register, login, getMe } = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/uploadMiddleware");
+const uploadResume = require("../middlewares/uploadResumeMiddleware");
 
 const router = express.Router();
 
@@ -31,6 +32,19 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
   // ⭐ IMPORTANT FIX ⭐
   // Frontend expects { url: "..." }
   return res.status(200).json({ url: imageUrl });
+});
+
+// ------------------------------------------
+// Upload resume (PDF, DOC, DOCX)
+// ------------------------------------------
+router.post("/upload-resume", uploadResume.single("resume"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
+
+  const resumeUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+
+  return res.status(200).json({ url: resumeUrl });
 });
 
 module.exports = router;

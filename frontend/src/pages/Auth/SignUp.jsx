@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Mail, Lock, User, Briefcase, Loader2 } from "lucide-react";
+import { Mail, Lock, User, Briefcase, Loader2, Upload } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [resumeFile, setResumeFile] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -28,15 +29,35 @@ const SignUp = () => {
       return;
     }
 
+    if (role === "jobseeker" && !resumeFile) {
+      alert("Please upload your resume");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      // Backend expects: name, email, password, role
+      let uploadedResumeUrl = "";
+
+      // Upload resume if role is jobseeker
+      if (role === "jobseeker" && resumeFile) {
+        const fd = new FormData();
+        fd.append("resume", resumeFile);
+        
+        const uploadRes = await axiosInstance.post(API_PATHS.AUTH.UPLOAD_RESUME, fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        
+        uploadedResumeUrl = uploadRes.data.url;
+      }
+
+      // Backend expects: name, email, password, role, resume
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         name: fullName,
         email,
         password,
         role,
+        resume: uploadedResumeUrl,
       });
 
       console.log("REGISTER RESPONSE:", response.data);
@@ -192,6 +213,25 @@ const SignUp = () => {
               </div>
             </div>
           </div>
+
+          {/* RESUME UPLOAD (Only for Job Seekers) */}
+          {role === "jobseeker" && (
+            <div className="space-y-1.5 sm:space-y-2 pt-1 sm:pt-2">
+              <label className="text-sm font-semibold text-slate-700 ml-1">Upload Resume *</label>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-3.5 sm:pl-4 flex items-center pointer-events-none">
+                  <Upload className="text-slate-400 w-4.5 h-4.5 sm:w-5 sm:h-5 group-focus-within:text-blue-600 transition-colors" />
+                </div>
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-3 sm:py-3.5 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-slate-900 text-sm sm:text-base focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all duration-200 ease-in-out file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  onChange={(e) => setResumeFile(e.target.files[0])}
+                />
+              </div>
+              <p className="text-xs text-slate-500 ml-1 mt-1">PDF, DOC, DOCX up to 5MB</p>
+            </div>
+          )}
 
           {/* SUBMIT BUTTON */}
           <button
